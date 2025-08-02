@@ -1,0 +1,18 @@
+.squares-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 768px;
+    height: 768px;
+}
+
+.grid-square {
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.ui_button {
+    margin: 8px;
+    padding: 8px;
+    font-size: 16px;
+    background: peachpuff;
+}
