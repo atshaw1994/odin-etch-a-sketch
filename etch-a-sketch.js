@@ -10,6 +10,8 @@ function getRandomColorValue() {
 
 function init_squares(desiredSize = 16){
     squares_container.innerHTML = '';
+
+    squares = []; 
     
     const containerWidth = 768;
     const squareSize = containerWidth / desiredSize;
@@ -24,6 +26,7 @@ function init_squares(desiredSize = 16){
 
             square.addEventListener("mouseenter", square_OnHover);
             squares_container.appendChild(square);
+            squares.push(square);
         }
     }
 }
@@ -85,11 +88,33 @@ function onLoad(){
     init_squares();
 }
 
+function getGridSize() {
+    // We can infer the size from the number of squares
+    const totalSquares = squares.length;
+    return Math.sqrt(totalSquares);
+}
+
 function shake(){
-    const allSquares = document.querySelectorAll('.grid-square');
-    allSquares.forEach(square => {
-        square.style.backgroundColor = 'white';
-    });
+    const gridSize = getGridSize();
+    
+    // Only proceed if the grid has been initialized
+    if (gridSize === 0) return;
+
+    // Outer loop for each row
+    for (let row = 0; row < gridSize; row++) {
+        
+        // Inner loop for each column
+        for (let column = 0; column < gridSize; column++) {
+            // Calculate the index of the square in the flat array
+            const index = row * gridSize + column;
+            const square = squares[index];
+
+            // Use a setTimeout to create the staggered effect
+            setTimeout(() => {
+                square.style.backgroundColor = 'white';
+            }, row * 50); // The delay is based on the row number
+        }
+    }
 }
 
 onLoad();
