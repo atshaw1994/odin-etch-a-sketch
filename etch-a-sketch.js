@@ -1,9 +1,11 @@
 const squares_container = document.querySelector('.squares-container');
 const size_button = document.querySelector('#size-button');
 const mode_button = document.querySelector('#mode-button');
+const mode_square = document.querySelector('#mode-square');
 const shake_button = document.querySelector('#shake-button ');
 const shake_intensity_slider = document.querySelector('#shake-intensity');
 const intensity_label = document.querySelector('#intensity-label');
+let current_mode = "Black"
 let squares = [];
 
 function getRandomColorValue() {
@@ -35,14 +37,17 @@ function init_squares(desiredSize = 16){
 
 function square_OnHover(event) {
     const square = event.target;
-    if (mode_button.innerHTML.endsWith("Black")) {
+    if (current_mode == "Black") {
         square.style.backgroundColor = 'black'; 
     }
-    else if (mode_button.innerHTML.endsWith("RGB")) {
+    else if (current_mode == "RGB") {
         const r = getRandomColorValue();
         const g = getRandomColorValue();
         const b = getRandomColorValue();
         square.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    }
+    else if (current_mode == "Eraser") {
+        square.style.backgroundColor = 'white'; 
     }
     else {
         const currentColor = square.style.backgroundColor;
@@ -72,14 +77,27 @@ function setSize(){
 }
 
 function switchMode(){
-    if (mode_button.innerHTML.endsWith("Black")) {
-        mode_button.innerHTML = "Mode: RGB";
-    }
-    else if (mode_button.innerHTML.endsWith("RGB")) {
-        mode_button.innerHTML = "Mode: Shade";
-    }
-    else if (mode_button.innerHTML.endsWith("Shade")) {
-        mode_button.innerHTML = "Mode: Black";
+    switch (current_mode) {
+        case "Black":
+            current_mode = "RGB";
+            mode_square.style.background = 'linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet)';
+            break;
+        case "RGB":
+            current_mode = "Shade";
+            mode_square.style.background = 'rgb(128, 128, 128)';
+            break;
+        case "Shade":
+            current_mode = "Eraser";
+            mode_square.style.background = 'white';
+            break;
+        case "Eraser":
+            current_mode = "Black";
+            mode_square.style.background = 'black';
+            break;
+        default:
+            current_mode = "Black";
+            mode_square.style.background = 'black';
+            break;
     }
 }
 
@@ -120,6 +138,7 @@ function onLoad(){
     mode_button.addEventListener("click", switchMode);
     shake_button.addEventListener("click", shake);
     init_squares();
+    mode_square.style.background = 'black';
     shake_intensity_slider.addEventListener("input", (event) => {
         event.stopPropagation(); // Prevent the slider input event from bubbling up to the button
         const sliderValue = Number(event.target.value);

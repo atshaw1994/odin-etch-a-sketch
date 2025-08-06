@@ -44,6 +44,18 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+#mode-square {
+    display: inline-block; /* Makes it a block with inline behavior */
+    width: 16px;
+    height: 16px;
+    border: 1px solid #D4D0C8;
+    vertical-align: middle; /* Aligns the square nicely with the text */
+    margin-left: 8px; /* Adds some space between the text and the square */
+    background-size: contain; /* Scales the image to fit inside the square */
+    background-repeat: no-repeat; /* Prevents the image from tiling */
+    background-position: center; /* Centers the image */
+}
+
 .ui-buttons-container {
     display: flex;
     flex-direction: row;
