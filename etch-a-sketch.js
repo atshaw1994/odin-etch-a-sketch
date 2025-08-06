@@ -1,6 +1,8 @@
 const squares_container = document.querySelector('.squares-container');
 const size_button = document.querySelector('#size_button');
 const mode_button = document.querySelector('#mode_button');
+const shake_button = document.querySelector('#shake_button ');
+let squares = [];
 
 function getRandomColorValue() {
     return Math.floor(Math.random() * 256);
@@ -19,7 +21,7 @@ function init_squares(desiredSize = 16){
             
             square.style.width = `${squareSize}px`;
             square.style.height = `${squareSize}px`;
-            
+
             square.addEventListener("mouseenter", square_OnHover);
             squares_container.appendChild(square);
         }
@@ -79,7 +81,15 @@ function switchMode(){
 function onLoad(){
     size_button.addEventListener("click", setSize);
     mode_button.addEventListener("click", switchMode);
+    shake_button.addEventListener("click", shake);
     init_squares();
+}
+
+function shake(){
+    const allSquares = document.querySelectorAll('.grid-square');
+    allSquares.forEach(square => {
+        square.style.backgroundColor = 'white';
+    });
 }
 
 onLoad();
