@@ -7,20 +7,16 @@
 </head>
 <body>
     <div class="base-container">
-        <div class="ui-buttons-container">
-            <button class="ui-button" id="size-button">Set Size</button>
-            <button class="ui-button" id="mode-button">
-                Mode:<span id="mode-square"></span>
-            </button>
-            <button class="ui-button" id="shake-button">Shake</button>
-            <label>Shake Intensity:</label>
-            <div class="slider-container">
-                <input type="range" id="shake-intensity" name="shake-intensity" min="0.5" max="5.5" />
-                <label for="shake-intensity" id="intensity-label">50%</label>
+        <div class="outer-shell">
+            <label class="logo">Etch-a-Sketch</label>
+            <div class="squares-container"></div>
+            <div class="circle-container">
+                <button class="circle-button" id="size-button">Size</button>
+                <button class="circle-button" id="mode-button">Mode</button>
             </div>
         </div>
-        <label><em>Press "space" to toggle pen on or off</em></label>
-        <div class="squares-container"></div>
+        <label><em>Press "space" to toggle pen on or off.</em></label>
+        <label><em>Click the frame to shake.</em></label>
     </div>  
 
     <script src="etch-a-sketch.js"></script>
