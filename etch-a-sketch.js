@@ -89,32 +89,30 @@ function onLoad(){
 }
 
 function getGridSize() {
-    // We can infer the size from the number of squares
     const totalSquares = squares.length;
     return Math.sqrt(totalSquares);
 }
 
 function shake(){
     const gridSize = getGridSize();
-    
-    // Only proceed if the grid has been initialized
     if (gridSize === 0) return;
 
-    // Outer loop for each row
+    squares_container.classList.add('shake-effect');
+
     for (let row = 0; row < gridSize; row++) {
-        
-        // Inner loop for each column
         for (let column = 0; column < gridSize; column++) {
-            // Calculate the index of the square in the flat array
             const index = row * gridSize + column;
             const square = squares[index];
 
-            // Use a setTimeout to create the staggered effect
             setTimeout(() => {
                 square.style.backgroundColor = 'white';
-            }, row * 50); // The delay is based on the row number
+            }, row * 50);
         }
     }
+
+    setTimeout(() => {
+        squares_container.classList.remove('shake-effect');
+    }, 820);
 }
 
 onLoad();
