@@ -7,6 +7,7 @@ const shake_intensity_slider = document.querySelector('#shake-intensity');
 const intensity_label = document.querySelector('#intensity-label');
 let current_mode = "Black"
 let squares = [];
+let isDrawingEnabled = false;
 
 function getRandomColorValue() {
     return Math.floor(Math.random() * 256);
@@ -36,6 +37,10 @@ function init_squares(desiredSize = 16){
 }
 
 function square_OnHover(event) {
+    if (!isDrawingEnabled) {
+        return; 
+    }
+
     const square = event.target;
     if (current_mode == "Black") {
         square.style.backgroundColor = 'black'; 
@@ -138,6 +143,13 @@ function onLoad(){
     mode_button.addEventListener("click", switchMode);
     shake_button.addEventListener("click", shake);
     init_squares();
+    document.addEventListener("keydown", (event) => {
+        if (event.code === "Space") {
+            isDrawingEnabled = !isDrawingEnabled;
+            event.preventDefault(); // Prevents the page from scrolling
+            console.log("Drawing is now: " + (isDrawingEnabled ? "ON" : "OFF"));
+        }
+    });
     mode_square.style.background = 'black';
     shake_intensity_slider.addEventListener("input", (event) => {
         event.stopPropagation(); // Prevent the slider input event from bubbling up to the button

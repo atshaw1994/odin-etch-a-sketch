@@ -65,9 +65,10 @@
 
 .slider-container {
     display: flex;
-    flex-direction: column; /* This is the key change to stack them vertically */
-    align-items: center; /* Horizontally centers the slider and label */
-    gap: 4px; /* Adds a small space between the slider and the label */
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 16px;
 }
 
 @keyframes shake {
