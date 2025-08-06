@@ -1,9 +1,9 @@
 const squares_container = document.querySelector('.squares-container');
-const size_button = document.querySelector('#size_button');
-const mode_button = document.querySelector('#mode_button');
-const shake_button = document.querySelector('#shake_button ');
-const shake_intensity_slider = document.querySelector('#shake_intesity');
-const intensity_label = document.querySelector('#intensity_label');
+const size_button = document.querySelector('#size-button');
+const mode_button = document.querySelector('#mode-button');
+const shake_button = document.querySelector('#shake-button ');
+const shake_intensity_slider = document.querySelector('#shake-intensity');
+const intensity_label = document.querySelector('#intensity-label');
 let squares = [];
 
 function getRandomColorValue() {
@@ -35,10 +35,10 @@ function init_squares(desiredSize = 16){
 
 function square_OnHover(event) {
     const square = event.target;
-    if (mode_button.innerHTML === "Black") {
+    if (mode_button.innerHTML.endsWith("Black")) {
         square.style.backgroundColor = 'black'; 
     }
-    else if (mode_button.innerHTML === "RGB") {
+    else if (mode_button.innerHTML.endsWith("RGB")) {
         const r = getRandomColorValue();
         const g = getRandomColorValue();
         const b = getRandomColorValue();
@@ -72,14 +72,14 @@ function setSize(){
 }
 
 function switchMode(){
-    if (mode_button.innerHTML === "Black") {
-        mode_button.innerHTML = "RGB";
+    if (mode_button.innerHTML.endsWith("Black")) {
+        mode_button.innerHTML = "Mode: RGB";
     }
-    else if (mode_button.innerHTML === "RGB") {
-        mode_button.innerHTML = "Shade";
+    else if (mode_button.innerHTML.endsWith("RGB")) {
+        mode_button.innerHTML = "Mode: Shade";
     }
-    else if (mode_button.innerHTML === "Shade") {
-        mode_button.innerHTML = "Black";
+    else if (mode_button.innerHTML.endsWith("Shade")) {
+        mode_button.innerHTML = "Mode: Black";
     }
 }
 
@@ -121,7 +121,15 @@ function onLoad(){
     shake_button.addEventListener("click", shake);
     init_squares();
     shake_intensity_slider.addEventListener("input", (event) => {
-        intensity_label.textContent = `Shake Intensity: ${event.target.value}`;
+        event.stopPropagation(); // Prevent the slider input event from bubbling up to the button
+        const sliderValue = Number(event.target.value);
+        const percentage = Math.round((sliderValue - 0.5) * 20);
+        intensity_label.textContent = `${percentage}%`;
+    });
+
+    shake_intensity_slider.addEventListener("click", (event) => {
+        // This stops the click event from bubbling up
+        event.stopPropagation();
     });
 }
 

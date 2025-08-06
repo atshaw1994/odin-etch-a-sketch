@@ -6,13 +6,19 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <button class="ui_button" id="size_button">Size</button>
-    <button class="ui_button" id="mode_button">Black</button>
-    <button class="ui_button" id="shake_button">Shake</button>
-    <input type="range" id="shake_intesity" name="shake_intesity" min="0.5" max="5.5" />
-    <label for="shake_intesity" id="intensity_label">Shake Intensity: 0.5</label>
-
-    <div class="squares-container"/>
+    <div class="base-container">
+        <div class="ui-buttons-container">
+            <button class="ui-button" id="size-button">Set Size</button>
+            <button class="ui-button" id="mode-button">Mode: Black</button>
+            <button class="ui-button" id="shake-button">Shake</button>
+            <label>Shake Intensity:</label>
+            <div class="slider-container">
+                <input type="range" id="shake-intensity" name="shake-intensity" min="0.5" max="5.5" />
+                <label for="shake-intensity" id="intensity-label">50%</label>
+            </div>
+        </div>
+        <div class="squares-container"></div>
+    </div>  
 
     <script src="etch-a-sketch.js"></script>
 </body>
