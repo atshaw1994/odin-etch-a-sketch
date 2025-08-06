@@ -2,6 +2,8 @@ const squares_container = document.querySelector('.squares-container');
 const size_button = document.querySelector('#size_button');
 const mode_button = document.querySelector('#mode_button');
 const shake_button = document.querySelector('#shake_button ');
+const shake_intensity_slider = document.querySelector('#shake_intesity');
+const intensity_label = document.querySelector('#intensity_label');
 let squares = [];
 
 function getRandomColorValue() {
@@ -81,22 +83,19 @@ function switchMode(){
     }
 }
 
-function onLoad(){
-    size_button.addEventListener("click", setSize);
-    mode_button.addEventListener("click", switchMode);
-    shake_button.addEventListener("click", shake);
-    init_squares();
-}
-
 function getGridSize() {
     const totalSquares = squares.length;
     return Math.sqrt(totalSquares);
 }
 
-function shake(){
+function shake() {
     const gridSize = getGridSize();
     if (gridSize === 0) return;
 
+    const intensity = Number(shake_intensity_slider.value);
+
+    // Set the CSS variable on the container before the animation starts
+    squares_container.style.setProperty('--shake-intensity', intensity);
     squares_container.classList.add('shake-effect');
 
     for (let row = 0; row < gridSize; row++) {
@@ -106,13 +105,24 @@ function shake(){
 
             setTimeout(() => {
                 square.style.backgroundColor = 'white';
-            }, row * 50);
+            }, row * 50); // This delay controls the clearing animation
         }
     }
-
+    
+    // After the animation finishes, remove the class
     setTimeout(() => {
         squares_container.classList.remove('shake-effect');
     }, 820);
+}
+
+function onLoad(){
+    size_button.addEventListener("click", setSize);
+    mode_button.addEventListener("click", switchMode);
+    shake_button.addEventListener("click", shake);
+    init_squares();
+    shake_intensity_slider.addEventListener("input", (event) => {
+        intensity_label.textContent = `Shake Intensity: ${event.target.value}`;
+    });
 }
 
 onLoad();
