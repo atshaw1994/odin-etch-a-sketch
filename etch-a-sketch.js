@@ -2,7 +2,7 @@ const outer_shell = document.querySelector('.outer-shell');
 const squares_container = document.querySelector('.squares-container');
 const size_button = document.querySelector('#size-button');
 const mode_button = document.querySelector('#mode-button');
-const shake_button = document.querySelector('#shake-button ');
+const gridlines_checkbox = document.querySelector('#gridlines-checkbox');
 let current_mode = "Black"
 let squares = [];
 let isDrawingEnabled = false;
@@ -24,11 +24,9 @@ function init_squares(desiredSize = 16){
         for (let column = 0; column < desiredSize; column++) {
             const square = document.createElement('div');
             square.classList.add('grid-square');
-            
             square.style.width = `${squareSize}px`;
             square.style.height = `${squareSize}px`;
-
-            square.addEventListener("mouseenter", square_OnHover);
+            square.addEventListener("mouseenter", square_OnEnter);
             square.addEventListener("mouseleave", square_OnLeave);
             squares_container.appendChild(square);
             squares.push(square);
@@ -36,39 +34,48 @@ function init_squares(desiredSize = 16){
     }
 }
 
-function square_OnHover(event) {
+function square_OnEnter(event) {
     const square = event.target;
-    squareEnterColor = square.style.backgroundColor;
-    if (current_mode == "Black") {
-        square.style.backgroundColor = 'black'; 
-    }
-    else if (current_mode == "RGB") {
-        const r = getRandomColorValue();
-        const g = getRandomColorValue();
-        const b = getRandomColorValue();
-        square.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-    }
-    else if (current_mode == "Eraser") {
-        square.style.backgroundColor = 'white'; 
-    }
-    else {
-        const currentColor = square.style.backgroundColor;
-        if (currentColor === '' || currentColor === 'rgba(0, 0, 0, 0)' || currentColor === 'white') {
-            square.style.backgroundColor = 'rgb(240, 240, 240)';
-            return;
+    
+    if (isDrawingEnabled) {
+        if (current_mode == "Black") {
+            square.style.backgroundColor = 'black'; 
         }
-        const rgbValues = currentColor.match(/\d+/g).map(Number);
-        const newR = Math.max(0, Math.floor(rgbValues[0] - (rgbValues[0] * 0.1)));
-        const newG = Math.max(0, Math.floor(rgbValues[1] - (rgbValues[1] * 0.1)));
-        const newB = Math.max(0, Math.floor(rgbValues[2] - (rgbValues[2] * 0.1)));
-        square.style.backgroundColor = `rgb(${newR}, ${newG}, ${newB})`;
+        else if (current_mode == "RGB") {
+            const r = getRandomColorValue();
+            const g = getRandomColorValue();
+            const b = getRandomColorValue();
+            square.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        }
+        else if (current_mode == "Eraser") {
+            square.style.backgroundColor = 'white'; 
+        }
+        else if (current_mode == "Shade") {
+            const currentColor = square.style.backgroundColor;
+            if (currentColor === '' || currentColor === 'rgba(0, 0, 0, 0)' || currentColor === 'white') {
+                square.style.backgroundColor = 'rgb(240, 240, 240)';
+                return;
+            }
+            const rgbValues = currentColor.match(/\d+/g).map(Number);
+            const newR = Math.max(0, Math.floor(rgbValues[0] - (rgbValues[0] * 0.1)));
+            const newG = Math.max(0, Math.floor(rgbValues[1] - (rgbValues[1] * 0.1)));
+            const newB = Math.max(0, Math.floor(rgbValues[2] - (rgbValues[2] * 0.1)));
+            square.style.backgroundColor = `rgb(${newR}, ${newG}, ${newB})`;
+        }
+    } 
+    
+    else {
+        square.dataset.originalColor = square.style.backgroundColor;
+        square.style.backgroundColor = 'black';
     }
 }
 
 function square_OnLeave(event) {
     const square = event.target;
+    
+    // Only revert the color if drawing is disabled
     if (!isDrawingEnabled) {
-        square.style.backgroundColor = squareEnterColor; 
+        square.style.backgroundColor = square.dataset.originalColor;
     }
 }
 
@@ -138,6 +145,16 @@ function shake() {
     }
 }
 
+function addRemoveSquareBorders(addBorders){
+    for (const square of squares) {
+        if (addBorders) {
+            square.classList.remove('grid-square-borderless');
+        } else {
+            square.classList.add('grid-square-borderless');
+        }
+    }
+}
+
 function onLoad(){
     size_button.addEventListener("click", (event) => {
         // Stop the event from bubbling up to the outer-shell
@@ -151,9 +168,10 @@ function onLoad(){
         switchMode();
     });
 
-    outer_shell.addEventListener("click", shake);
-    
-    init_squares();
+    gridlines_checkbox.addEventListener("change", (event) => {
+        event.stopPropagation();
+        addRemoveSquareBorders(event.target.checked);
+    });
 
     document.addEventListener("keydown", (event) => {
         if (event.code === "Space") {
@@ -161,6 +179,18 @@ function onLoad(){
             event.preventDefault();
         }
     });
+
+    outer_shell.addEventListener("click", (event) => {
+        // Check if the clicked element is the checkbox or its label
+        const isCheckboxClick = event.target.matches('#gridlines-checkbox, [for="gridlines-checkbox"]');
+        
+        // Only call shake() if the click wasn't on the checkbox or its label
+        if (!isCheckboxClick) {
+            shake();
+        }
+    });
+    
+    init_squares();
 
     mode_button.style.background = 'black';
 }
