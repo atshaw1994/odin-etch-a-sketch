@@ -40,7 +40,7 @@ To view and interact with the Etch-A-Sketch application, simply clone this repos
 git clone https://github.com/atshaw1994/odin-etch-a-sketch.git
 ```
 
-# ##What I Learned
+### What I Learned
 This project was a great opportunity to practice and solidify my understanding of fundamental front-end development concepts, including:
 
 * **DOM Manipulation:** Dynamically creating and removing elements on the page.
