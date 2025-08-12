@@ -3,19 +3,27 @@ A classic Etch-A-Sketch application built as a project for The Odin Project's cu
 
 ### Features
 
-**Interactive Grid:** The app generates a dynamic grid of squares based on user input.
+* **Interactive Grid:** The app generates a dynamic grid of squares based on user input.
 
-**Drawing Functionality:** Simply hover your mouse over the grid to "sketch" in black.
+* **Drawing Functionality:** Simply hover your mouse over the grid to "sketch" in the selected color.
+
+* **Grid Resizing:** Use the "Size" button to create a new grid of up to 100x100 squares.
+
+* **GridLines:** Use the "Gridlines" checkbox to show or hide the grid.
+
+* **Pen Enable/Disable:** Use the 'spacebar' to enable or disable active drawing.
+
+* **Shake:** Click anywhere on the red frame to 'shake' the etch-a-sketch and erase your drawing.
 
 ### Color Modes:
 
-* **Black & White:** The default drawing mode.
+* **Black:** The default drawing mode.
 
-* **Random Color:** Switch to this mode to draw with a new random color on every square.
+* **RGB:** Switch to this mode to draw with a new random color on every square.
 
-* **Grid Resizing:** Use the "Set Size" button to create a new grid of up to 100x100 squares.
+* **Shade:** Shades the square by 10%.
 
-* **Clear Canvas:** The "Clear" button instantly resets the grid, allowing you to start a new drawing.
+* **White (eraser):** Resets the square to white.
 
 ### Technologies Used
 
@@ -32,7 +40,7 @@ To view and interact with the Etch-A-Sketch application, simply clone this repos
 git clone https://github.com/atshaw1994/odin-etch-a-sketch.git
 ```
 
-###What I Learned
+# ##What I Learned
 This project was a great opportunity to practice and solidify my understanding of fundamental front-end development concepts, including:
 
 * **DOM Manipulation:** Dynamically creating and removing elements on the page.
