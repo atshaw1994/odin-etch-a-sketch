@@ -1,6 +1,15 @@
 # Etch-A-Sketch
 A classic Etch-A-Sketch application built as a project for The Odin Project's curriculum. This web-based drawing pad allows users to create digital sketches by hovering their mouse over a grid.
 
+### Live Preview
+
+Here's a live preview of the project:
+[Live Preview](https://atshaw1994.github.io/odin-etch-a-sketch/)
+
+### Screenshot
+
+![Screenshot](screenshot.png)
+
 ### Features
 
 * **Interactive Grid:** The app generates a dynamic grid of squares based on user input.
