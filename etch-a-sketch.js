@@ -3,6 +3,8 @@ const squares_container = document.querySelector('.squares-container');
 const size_button = document.querySelector('#size-button');
 const mode_button = document.querySelector('#mode-button');
 const gridlines_checkbox = document.querySelector('#gridlines-checkbox');
+const custom_color_button = document.querySelector('#custom-color-button');
+const color_picker = document.querySelector('#color-picker');
 let current_mode = "Black"
 let squares = [];
 let isDrawingEnabled = false;
@@ -39,7 +41,7 @@ function square_OnEnter(event) {
     
     if (isDrawingEnabled) {
         if (current_mode == "Black") {
-            square.style.backgroundColor = 'black'; 
+            square.style.backgroundColor = 'black';
         }
         else if (current_mode == "RGB") {
             const r = getRandomColorValue();
@@ -47,8 +49,11 @@ function square_OnEnter(event) {
             const b = getRandomColorValue();
             square.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
         }
+        else if (current_mode == "Custom") { // Add the new "Custom" mode
+            square.style.backgroundColor = color_picker.value;
+        }
         else if (current_mode == "Eraser") {
-            square.style.backgroundColor = 'white'; 
+            square.style.backgroundColor = 'white';
         }
         else if (current_mode == "Shade") {
             const currentColor = square.style.backgroundColor;
@@ -62,11 +67,16 @@ function square_OnEnter(event) {
             const newB = Math.max(0, Math.floor(rgbValues[2] - (rgbValues[2] * 0.1)));
             square.style.backgroundColor = `rgb(${newR}, ${newG}, ${newB})`;
         }
-    } 
+    }
     
     else {
         square.dataset.originalColor = square.style.backgroundColor;
-        square.style.backgroundColor = 'black';
+        // Update the hover color based on the current mode
+        if (current_mode === "Custom") {
+            square.style.backgroundColor = color_picker.value;
+        } else {
+            square.style.backgroundColor = 'black';
+        }
     }
 }
 
@@ -107,12 +117,22 @@ function switchMode(){
             mode_button.style.background = 'white';
             break;
         case "Eraser":
+            current_mode = "Custom";
+            mode_button.style.background = color_picker.value;
+            custom_color_button.classList.remove('hidden');
+            custom_color_button.classList.add('visible');
+            break;
+        case "Custom":
             current_mode = "Black";
             mode_button.style.background = 'black';
+            custom_color_button.classList.add('hidden');
+            custom_color_button.classList.remove('visible');
             break;
         default:
             current_mode = "Black";
             mode_button.style.background = 'black';
+            custom_color_button.classList.add('hidden');
+            custom_color_button.classList.remove('visible');
             break;
     }
 }
@@ -168,6 +188,18 @@ function onLoad(){
         switchMode();
     });
 
+    color_picker.addEventListener("input", (event) => {
+        // Only update the mode button color if the current mode is "Custom"
+        if (current_mode === "Custom") {
+            mode_button.style.background = event.target.value;
+        }
+    });
+
+    custom_color_button.addEventListener("click", (event) => {
+        // Prevents the click from bubbling up to the outer-shell
+        event.stopPropagation();
+    });
+
     gridlines_checkbox.addEventListener("change", (event) => {
         event.stopPropagation();
         addRemoveSquareBorders(event.target.checked);
@@ -193,6 +225,8 @@ function onLoad(){
     init_squares();
 
     mode_button.style.background = 'black';
+
+    custom_color_button.classList.add('hidden');
 }
 
 onLoad();
